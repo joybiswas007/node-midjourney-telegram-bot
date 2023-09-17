@@ -82,14 +82,14 @@ export const midJourney = (bot) => {
 
         const imgUrl = Upscale.uri;
         const imgDir = "./Upscales";
-        const filePath = `${imgDir}/${userMessageId}.png`;
+        const filePath = `${imgDir}/${message_id}.png`;
         const options = {
           reply_to_message_id: userMessageId,
-        }
+        };
 
         saveAndSendPhoto(imgUrl, imgDir, filePath, chat_id, bot, options);
-
       } else if (selectedLabel.includes("V")) {
+        bot.deleteMessage(chat_id, message_id);
         bot.sendMessage(chat_id, `Generating Variants of ${selectedLabel}.`);
         const VCustomID = Imagine.options?.find(
           (o) => o.label === selectedLabel
@@ -130,16 +130,17 @@ export const midJourney = (bot) => {
           prompt,
           data: selectedLabel,
         });
-      
+
         await mj.save();
 
         const imgUrl = Variation.uri;
         const imgDir = "./Variations";
-        const filePath = `${imgDir}/${userMessageId}.png`;
+        const filePath = `${imgDir}/${message_id}.png`;
+
         saveAndSendPhoto(imgUrl, imgDir, filePath, chat_id, bot, variantOptions);
 
         bot.on("callback_query", async (query_up) => {
-          const upscaleLabel = query_up.data; 
+          const upscaleLabel = query_up.data;
           let imgLabel;
 
           switch (upscaleLabel) {
@@ -159,13 +160,13 @@ export const midJourney = (bot) => {
               bot.sendMessage(chat_id, "Invalid selection");
               break;
           }
-      
+
           bot.sendMessage(chat_id, `Upscaling Image from Variants ${imgLabel}`);
-      
+
           const upscaleCustomID = Variation.options?.find(
             (o) => o.label === imgLabel
           )?.custom;
-      
+
           const variationUpscale = await client.Custom({
             msgId: Variation.id,
             flags: Variation.flags,
@@ -174,13 +175,14 @@ export const midJourney = (bot) => {
               console.log(`Loading: ${uri}, progress: ${progress}`);
             },
           });
+          console.log(variationUpscale)
 
           const imgUrl = variationUpscale.uri;
           const imgDir = "./VariationsUpscales";
-          const filePath = `${imgDir}/${userMessageId}.png`;
+          const filePath = `${imgDir}/${message_id}.png`;
           const options = {
             reply_to_message_id: userMessageId,
-          } 
+          };
           saveAndSendPhoto(imgUrl, imgDir, filePath, chat_id, bot, options);
         });
       }
@@ -188,5 +190,4 @@ export const midJourney = (bot) => {
       bot.sendMessage(chat_id, error, { reply_to_message_id: userMessageId });
     }
   });
-
 };
