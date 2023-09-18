@@ -3,12 +3,8 @@ config();
 
 import mongoose from "mongoose";
 
-mongoose.connect(process.env.MONGO_DB).then( () => {
-    console.log("Connected to database!")
-}).catch( (err) => {
-    console.log("Error: ", err)
-});
+mongoose.connect(process.env.MONGO_DB);
 
 import { MJ } from "./models/mjModel.js";
 
-export { MJ }
+export { MJ };
