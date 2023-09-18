@@ -105,7 +105,7 @@ export const midJourney = (bot) => {
           },
         });
 
-        const variantOptions = {
+        const options = {
           reply_markup: JSON.stringify({
             inline_keyboard: [
               [
@@ -137,7 +137,7 @@ export const midJourney = (bot) => {
         const imgDir = "./Variations";
         const filePath = `${imgDir}/${message_id}.png`;
 
-        saveAndSendPhoto(imgUrl, imgDir, filePath, chat_id, bot, variantOptions);
+        saveAndSendPhoto(imgUrl, imgDir, filePath, chat_id, bot, options);
 
         bot.on("callback_query", async (query_up) => {
           const upscaleLabel = query_up.data;
@@ -166,7 +166,7 @@ export const midJourney = (bot) => {
           const upscaleCustomID = Variation.options?.find(
             (o) => o.label === imgLabel
           )?.custom;
-
+          
           const variationUpscale = await client.Custom({
             msgId: Variation.id,
             flags: Variation.flags,
@@ -175,7 +175,8 @@ export const midJourney = (bot) => {
               console.log(`Loading: ${uri}, progress: ${progress}`);
             },
           });
-          console.log(variationUpscale)
+
+          console.log(variationUpscale);
 
           const imgUrl = variationUpscale.uri;
           const imgDir = "./VariationsUpscales";
