@@ -10,7 +10,7 @@ export const startBot = (bot) => {
       try {
         bot.sendMessage(
           chatId,
-          `Hi, ${first_name}. I'm Magnets Fetcher bot. Try me\n<code>/mj whats on my mind. </code> `,
+          `Hi, ${first_name}. I'm Image Generator bot. Try me\n<code>/mj whats on my mind. </code> `,
           options
         );
       } catch (error) {
