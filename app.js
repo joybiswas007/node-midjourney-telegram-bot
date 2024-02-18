@@ -1,15 +1,24 @@
 import dotenv from "dotenv";
-dotenv.config();
 
 import TelegramBot from "node-telegram-bot-api";
 
-const { TG_BOT_TOKEN } = process.env;
+// Import command
+import { startBot } from "./bot/commands/start.js";
+import { midJourney } from "./bot/commands/midJourney.js";
+import { sudoer } from "./bot/commands/sudoer.js";
+import { removeSudoer } from "./bot/commands/removeSudoer.js";
+import { listSudoers } from "./bot/commands/listSudoers.js";
+
+dotenv.config();
+
+const { TG_BOT_TOKEN, SUDO_USER } = process.env;
+const sudoUser = parseInt(SUDO_USER, 10);
+
 const bot = new TelegramBot(TG_BOT_TOKEN, { polling: true });
 
-// Import command
-import { midJourney } from "./commands/midJourney.js";
-import { startBot } from "./commands/start.js";
-
-//Use command
+// Use command
 startBot(bot);
-midJourney(bot);
+midJourney(bot, sudoUser);
+sudoer(bot, sudoUser);
+removeSudoer(bot, sudoUser);
+listSudoers(bot, sudoUser);

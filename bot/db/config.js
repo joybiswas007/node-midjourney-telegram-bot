@@ -1,3 +1,3 @@
 export const schemaOptions = {
-    timestamps: true,
-}
+  timestamps: true
+};
