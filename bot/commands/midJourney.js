@@ -13,7 +13,7 @@ export const midJourney = (bot, sudoUser) => {
     userMessageId = msg.message_id;
     prompt = msg.text.replace(match[0], "").trim();
     const { id: userId, username, first_name: firstname } = msg.from;
-    const {id: chatID } = msg.chat;
+    const { id: chatID } = msg.chat;
     const options = {
       reply_to_message_id: userMessageId
     };

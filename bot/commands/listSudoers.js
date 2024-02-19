@@ -19,12 +19,15 @@ export const listSudoers = (bot, sudoUser) => {
     }
 
     try {
-
       const counts = await SUDOER.count({});
       if (counts > 0) {
         const lists = await SUDOER.find({});
-        const sudoers = lists.map((list) => `tg://user?id=${list.sudoer}\n`);
-        bot.sendMessage(chatID, `${sudoers}\nTotal user in sudoers: ${counts}`, options);
+        const sudoers = lists.map(list => `tg://user?id=${list.sudoer}\n`);
+        bot.sendMessage(
+          chatID,
+          `${sudoers}\nTotal user in sudoers: ${counts}`,
+          options
+        );
       } else {
         bot.sendMessage(chatID, "No user on sudoers yet.", options);
       }

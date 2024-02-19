@@ -11,7 +11,9 @@ export const sudoChecker = async (
   options
 ) => {
   if (userId !== sudoUser) {
-    const foundSudoer = await SUDOER.findOne({ sudoer: chatID } || { sudoer: userId});
+    const foundSudoer = await SUDOER.findOne(
+      { sudoer: chatID } || { sudoer: userId }
+    );
     if (!foundSudoer) {
       bot.sendMessage(
         chatID,

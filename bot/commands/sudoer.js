@@ -36,7 +36,11 @@ export const sudoer = (bot, sudoUser) => {
         options
       );
     } catch (error) {
-      bot.sendMessage(chatID, `userid: ${sudoId} is already added to sudoers. No need to add again.`, options);
+      bot.sendMessage(
+        chatID,
+        `userid: ${sudoId} is already added to sudoers. No need to add again.`,
+        options
+      );
     }
   });
 };
