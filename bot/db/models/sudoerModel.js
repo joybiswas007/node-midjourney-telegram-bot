@@ -5,7 +5,8 @@ const sudoerSchema = new Schema(
   {
     sudoer: {
       type: Number,
-      required: true
+      required: true,
+      unique: true
     }
   },
   schemaOptions

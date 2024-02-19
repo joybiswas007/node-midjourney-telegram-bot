@@ -12,15 +12,15 @@ export const midJourney = (bot, sudoUser) => {
   bot.onText(/\/mj/, async (msg, match) => {
     userMessageId = msg.message_id;
     prompt = msg.text.replace(match[0], "").trim();
-    const chatID = msg.chat.id;
-    const { id: userId, username, first_name } = msg.from;
+    const { id: userId, username, first_name: firstname } = msg.from;
+    const {id: chatID } = msg.chat;
     const options = {
       reply_to_message_id: userMessageId
     };
     if (
       !(await sudoChecker(
         userId,
-        username || first_name,
+        username || firstname,
         sudoUser,
         bot,
         chatID,
