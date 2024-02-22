@@ -1,8 +1,9 @@
 // Add sudo users who'll have ability to run the bot
 import { SUDOER } from "../db/mjSchema.js";
 
-export const removeSudoer = (bot, sudoUser) => {
-  bot.onText(/\/rm/, async (msg, match) => {
+export const addSudoer = (bot, sudoUser) => {
+  let sudoId;
+  bot.onText(/\/sudo/, async (msg, match) => {
     const { id: userId } = msg.from;
     const { id: chatID } = msg.chat;
     const msgId = msg.message_id;
@@ -18,9 +19,9 @@ export const removeSudoer = (bot, sudoUser) => {
         options
       );
     }
-
     // User id that is going to be added as sudo
-    const sudoId = msg.text.replace(match[0], "").trim();
+    sudoId = msg.text.replace(match[0], "").trim();
+
     if (sudoId.length === 0) {
       return bot.sendMessage(
         chatID,
@@ -30,27 +31,26 @@ export const removeSudoer = (bot, sudoUser) => {
     }
 
     try {
-      const rmsu = await SUDOER.findOneAndDelete({ sudoer: sudoId });
-      if (rmsu) {
-        bot.sendMessage(
-          chatID,
-          "sudoers: User removed from sudoers. Permission revoked. Bot access disabled.",
-          options
-        );
-      } else {
-        bot.sendMessage(
-          chatID,
-          "sudoers: User not found in sudoers. No action required.",
-          options
-        );
-      }
-    } catch (error) {
-      console.log(error.message);
+      const sudo = new SUDOER({
+        sudoer: parseInt(sudoId, 10)
+      });
+
+      await sudo.save();
+
       bot.sendMessage(
         chatID,
-        "error: Invalid action. Please provide a valid action.",
+        "sudoers: User successfully added. Bot access granted.",
         options
       );
+    } catch (error) {
+      let errorMessage = "";
+      if (error.code === 11000) {
+        errorMessage +=
+          "error: User ID already exists. Please select a different user ID.";
+      } else {
+        errorMessage += "error: Invalid ID type specified.";
+      }
+      bot.sendMessage(chatID, errorMessage, options);
     }
   });
 };

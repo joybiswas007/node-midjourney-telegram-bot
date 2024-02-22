@@ -5,7 +5,7 @@ import TelegramBot from "node-telegram-bot-api";
 // Import command
 import { startBot } from "./bot/commands/start.js";
 import { midJourney } from "./bot/commands/midJourney.js";
-import { sudoer } from "./bot/commands/sudoer.js";
+import { addSudoer } from "./bot/commands/addSudoer.js";
 import { removeSudoer } from "./bot/commands/removeSudoer.js";
 import { listSudoers } from "./bot/commands/listSudoers.js";
 
@@ -19,6 +19,6 @@ const bot = new TelegramBot(TG_BOT_TOKEN, { polling: true });
 // Use command
 startBot(bot);
 midJourney(bot, sudoUser);
-sudoer(bot, sudoUser);
+addSudoer(bot, sudoUser);
 removeSudoer(bot, sudoUser);
 listSudoers(bot, sudoUser);

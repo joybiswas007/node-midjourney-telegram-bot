@@ -10,10 +10,11 @@ export const listSudoers = (bot, sudoUser) => {
       parse_mode: "HTML",
       reply_to_message_id: msgId
     };
+
     if (userId !== sudoUser) {
       return bot.sendMessage(
         chatID,
-        "Only bot owner can execute this command",
+        "permission denied: You do not have sufficient privileges to execute this command.",
         options
       );
     }
@@ -25,11 +26,11 @@ export const listSudoers = (bot, sudoUser) => {
         const sudoers = lists.map(list => `tg://user?id=${list.sudoer}\n`);
         bot.sendMessage(
           chatID,
-          `${sudoers}\nTotal user in sudoers: ${counts}`,
+          `${sudoers}\nsudoers: Total users in sudoers: [${counts}]`,
           options
         );
       } else {
-        bot.sendMessage(chatID, "No user on sudoers yet.", options);
+        bot.sendMessage(chatID, "sudoers: No users are currently authorized.", options);
       }
     } catch (error) {
       bot.sendMessage(chatID, `${error.message}`, options);
